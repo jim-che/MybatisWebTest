@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.MybatisWebTest.mapper.EmployeeMapper">
+    <select id="queryAll" resultType="Employee">
+        select * from employee;
+    </select>
+
+    <select id="queryById" resultType="Employee">
+        select * from employee where employeeId = #{id};
+    </select>
+
+    <select id="queryByUsername" resultType="Employee">
+        select * from employee where username = #{username};
+    </select>
+
+    <select id="queryVagueById" resultType="Employee">
+        select * from employee where employeeId like CONCAT('%', #{id}, '%');
+    </select>
+
+    <select id="queryVagueByName" resultType="Employee">
+        select * from employee where `name` like CONCAT('%', #{name}, '%');
+    </select>
+
+    <insert id="addEmployee" parameterType="Employee">
+        insert into employee (employeeId, `name`, email, gender, departmentId)
+        values (#{employeeId}, #{name}, #{email}, #{gender}, #{departmentId});
+    </insert>
+
+    <delete id="deleteEmployeeById" parameterType="Integer">
+        delete from employee where employeeId=#{id};
+    </delete>
+
+    <update id="updateEmployee" parameterType="Employee">
+        update employee set `name`=#{name}, email=#{email}, departmentId=#{departmentId},  gender=#{gender}
+        where employeeId=#{employeeId};
+    </update>
+</mapper>

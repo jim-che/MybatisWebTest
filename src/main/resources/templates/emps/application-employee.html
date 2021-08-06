@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>员工信息表</title>
+
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/bootstrap.css">
+
+    <link rel="stylesheet" href="assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
+    <link rel="stylesheet" href="assets/vendors/bootstrap-icons/bootstrap-icons.css">
+    <link rel="stylesheet" href="assets/css/app.css">
+    <link rel="shortcut icon" href="assets/images/favicon.svg" type="image/x-icon">
+</head>
+<body>
+<div id="app">
+    <div th:replace="~{commons/sidebar.html::sidebar(active='employee.html')}"></div>
+    <div id="main">
+        <header class="mb-3">
+            <a href="#" class="burger-btn d-block d-xl-none">
+                <i class="bi bi-justify fs-3"></i>
+            </a>
+        </header>
+        <div class="page-title">
+            <div class="row">
+                <div class="col-12 col-md-6 order-md-1 order-last">
+                    <h3>员工管理表</h3>
+                    <p class="text-subtitle text-muted">More convenient management of staff</p>
+                </div>
+                <div class="col-12 col-md-6 order-md-2 order-first">
+                    <nav aria-label="breadcrumb" class="breadcrumb-header float-start float-lg-end">
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item"><a th:href="@{/backIndex}">Dashboard</a></li>
+                            <li class="breadcrumb-item active" aria-current="page">DataTable</li>
+                        </ol>
+                    </nav>
+                </div>
+            </div>
+        </div>
+
+        <section class="section">
+            <div class="card">
+                <div class="card-header">
+                    Employee Data Sheet
+                </div>
+                <div class="card-body">
+
+                    <div class="row">
+                        <div class="mb-4 col-md-4">
+                            <div class="breadcrumb-header">
+                                <a class="btn btn-primary rounded-pill" th:href="@{/toAddEmployee}">新增员工</a>
+                            </div>
+                        </div>
+                        <div class="mb-4 col-md-4"></div>
+                        <div class="mb-4 col-md-4">
+                            <form method="post" th:action="@{/queryEmployee}">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text" id="basic-addon1"><i class="bi bi-search"></i></span>
+                                    <input type="text" class="form-control" placeholder="员工编号或姓名" aria-label="员工编号或姓名" aria-describedby="button-addon2" name="msg">
+                                    <button class="btn btn-outline-secondary" type="submit" id="button-addon2">查找</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+
+
+                    <div class="table-responsive">
+                        <table class="table table-hover mb-0">
+                            <thead>
+                            <tr>
+                                <th>姓名</th>
+                                <th>电子邮箱</th>
+                                <th>性别</th>
+                                <th>部门</th>
+                                <th>操作</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr th:each="emp:${emps}">
+                                <td th:text="${emp.getName()}"></td>
+                                <td th:text="${emp.getEmail()}"></td>
+                                <td th:text="${emp.getGender()==1?'男':'女'}"></td>
+                                <td th:text="${emp.getDepartment().getDepartmentName()}"></td>
+                                <td>
+                                    <a class="btn btn btn-primary rounded-pill" th:href="@{/toUpdateEmployee/} + ${emp.getEmployeeId()}">编辑</a>
+                                    <a class="btn btn btn-danger rounded-pill" th:href="@{/deleteEmployee/} + ${emp.getEmployeeId()}" onclick="return deleteConfirm()       ">删除</a>
+                                </td>
+ 
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
+<script src="assets/vendors/perfect-scrollbar/perfect-scrollbar.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+
+<script src="assets/vendors/simple-datatables/simple-datatables.js"></script>
+<script>
+    // Simple Datatable
+    let table1 = document.querySelector('#table1');
+    let dataTable = new simpleDatatables.DataTable(table1);
+
+    function deleteConfirm() {
+        if(window.confirm("你确定要删除吗？")){
+            alert("删除成功");
+            return true;
+        }else{
+            return false;
+        }
+
+    }
+
+</script>
+
+<script src="assets/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.MybatisWebTest.mapper.AdminMapper">
+    <select id="queryAll" resultType="Admin">
+        select * from admin;
+    </select>
+
+    <select id="queryById" resultType="Admin">
+        select * from admin where employeeId = #{id};
+    </select>
+
+    <select id="queryByUsername" resultType="Admin">
+        select * from admin where username = #{username};
+    </select>
+    <insert id="addEmployee" parameterType="Admin">
+        insert into admin (employeeId, uesrname, password, `name`, email, gender, departmentId, birth)
+        values (#{employeeId},#{username}, #{password}, #{name}, #{email}, #{gender}, #{departmentId}, #{birth});
+    </insert>
+
+    <delete id="deleteEmployeeById" parameterType="Integer">
+        delete from admin where employeeId=#{id};
+    </delete>
+
+    <update id="updateEmployee" parameterType="Admin">
+        update table admin set username = #{username}, password=#{password}, `name`=#{name}, email=#{email}, departmentId=#{departmentId}, birth=#{birth}, gender=#{gender}
+        where employeeId=#{employeeId};
+    </update>
+</mapper>
